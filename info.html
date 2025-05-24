@@ -59,21 +59,24 @@
     }
 
     waitForBridge(function (bridge) {
-      // getClientInfo
-      bridge.callHandler("getClientInfo", null, function (res) {
-        document.getElementById("clientInfo").textContent = res;
-      });
+  bridge.init(function (message, responseCallback) {
+    console.log("JS got a message", message);
+    responseCallback("JS received your message");
+  });
 
-      // getToken
-      bridge.callHandler("getToken", null, function (res) {
-        document.getElementById("tokenInfo").textContent = res;
-      });
+  // ✅ 아래는 기존 핸들러 호출
+  bridge.callHandler("getClientInfo", null, function (res) {
+    document.getElementById("clientInfo").textContent = res;
+  });
 
-      // getDeviceLog
-      bridge.callHandler("getDeviceLog", null, function (res) {
-        document.getElementById("deviceLog").textContent = res;
-      });
-    });
+  bridge.callHandler("getToken", null, function (res) {
+    document.getElementById("tokenInfo").textContent = res;
+  });
+
+  bridge.callHandler("getDeviceLog", null, function (res) {
+    document.getElementById("deviceLog").textContent = res;
+  });
+});
   </script>
 </body>
 </html>
