@@ -43,40 +43,52 @@
     <div class="content" id="deviceLog">loading...</div>
   </div>
 
-  <script>
-    function waitForBridge(callback) {
-      if (window.WebViewJavascriptBridge) {
-        callback(WebViewJavascriptBridge);
-      } else {
-        document.addEventListener(
-          'WebViewJavascriptBridgeReady',
-          function () {
-            callback(WebViewJavascriptBridge);
-          },
-          false
-        );
-      }
+<script>
+  function waitForBridge(callback) {
+    if (window.WebViewJavascriptBridge) {
+      callback(WebViewJavascriptBridge);
+    } else {
+      document.addEventListener(
+        'WebViewJavascriptBridgeReady',
+        function () {
+          callback(WebViewJavascriptBridge);
+        },
+        false
+      );
     }
+  }
 
-    waitForBridge(function (bridge) {
-  bridge.init(function (message, responseCallback) {
-    console.log("JS got a message", message);
-    responseCallback("JS received your message");
-  });
+  waitForBridge(function (bridge) {
+    bridge.init(function (message, responseCallback) {
+      console.log("JS got a message", message);
+      responseCallback("JS received your message");
+    });
 
-  // ✅ 아래는 기존 핸들러 호출
-  bridge.callHandler("getClientInfo", null, function (res) {
-    document.getElementById("clientInfo").textContent = res;
-  });
+    // getClientInfo
+    bridge.callHandler("getClientInfo", null, function (res) {
+      try {
+        const obj = JSON.parse(res);
+        document.getElementById("clientInfo").textContent = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        document.getElementById("clientInfo").textContent = res;
+      }
+    });
 
-  bridge.callHandler("getToken", null, function (res) {
-    document.getElementById("tokenInfo").textContent = res;
-  });
+    // getToken
+    bridge.callHandler("getToken", null, function (res) {
+      try {
+        const obj = JSON.parse(res);
+        document.getElementById("tokenInfo").textContent = JSON.stringify(obj, null, 2);
+      } catch (e) {
+        document.getElementById("tokenInfo").textContent = res;
+      }
+    });
 
-  bridge.callHandler("getDeviceLog", null, function (res) {
-    document.getElementById("deviceLog").textContent = res;
+    // getDeviceLog
+    bridge.callHandler("getDeviceLog", null, function (res) {
+      document.getElementById("deviceLog").textContent = res;
+    });
   });
-});
-  </script>
+</script>
 </body>
 </html>
