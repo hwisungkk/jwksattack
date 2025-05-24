@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>🌐 About Me</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .content {
+      font-family: monospace;
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hi, I'm WebView</h1>
+  <p>This page shows some internal info from the app. Nothing shady, just learning </p>
+
+  <div class="section">
+    <div class="title">Client Info</div>
+    <div class="content" id="clientInfo">loading...</div>
+  </div>
+
+  <div class="section">
+    <div class="title">Token Info</div>
+    <div class="content" id="tokenInfo">loading...</div>
+  </div>
+
+  <div class="section">
+    <div class="title">🛠️ Device Log</div>
+    <div class="content" id="deviceLog">loading...</div>
+  </div>
+
+  <script>
+    function waitForBridge(callback) {
+      if (window.WebViewJavascriptBridge) {
+        callback(WebViewJavascriptBridge);
+      } else {
+        document.addEventListener(
+          'WebViewJavascriptBridgeReady',
+          function () {
+            callback(WebViewJavascriptBridge);
+          },
+          false
+        );
+      }
+    }
+
+    waitForBridge(function (bridge) {
+      // getClientInfo
+      bridge.callHandler("getClientInfo", null, function (res) {
+        document.getElementById("clientInfo").textContent = res;
+      });
+
+      // getToken
+      bridge.callHandler("getToken", null, function (res) {
+        document.getElementById("tokenInfo").textContent = res;
+      });
+
+      // getDeviceLog
+      bridge.callHandler("getDeviceLog", null, function (res) {
+        document.getElementById("deviceLog").textContent = res;
+      });
+    });
+  </script>
+</body>
+</html>
